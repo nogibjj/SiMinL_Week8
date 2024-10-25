@@ -1,3 +1,4 @@
+[![Rust CI/CD Pipeline](https://github.com/nogibjj/SiMinL_Week8/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/SiMinL_Week8/actions/workflows/CI.yml)
 
 # Individual Project 2: Rust CLI Binary with SQLite
 ## Requirements
