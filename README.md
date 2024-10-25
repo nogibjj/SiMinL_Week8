@@ -13,8 +13,6 @@ Utilising an LLM for this project allowed me to familiarise myself with the synt
 - Github/Gitlab Actions: A workflow file that tests, builds, and lints your Rust code.
 - Video Demo: A YouTube link in README.md showing a clear, concise walkthrough and demonstration of your CLI binary.
 
-# Video Demo
-
 # Components
 - Data Extraction: The extract function downloads data from a specified URL and saves it to a local file.
 - Data Transformation and Loading: The transform_load function reads a CSV dataset and inserts its records into a SQLite database after performing necessary table operations. It creates a table named  with specific columns.
@@ -41,3 +39,6 @@ make create, make read, make update or make delete to see sample CRUD operations
 
 # Optimised Rust Binary
 Find and download the uploaded artifact by going to actions and clicking on the latest workflow run
+
+# Video Demo
+https://drive.google.com/file/d/1jgEPzVPR9vp51gOHG-HGX8PzwF8Jg8Fz/view?usp=drive_link
