@@ -13,12 +13,19 @@ fn test_extract() {
     let result = extract(url, file_path, directory);
 
     // Check if the function executed successfully
-    assert!(result.is_ok(), "test_extract failed with error: {:?}", result.unwrap_err());
+    assert!(
+        result.is_ok(),
+        "test_extract failed with error: {:?}",
+        result.unwrap_err()
+    );
 
     // Check if the file was created
-    assert!(fs::metadata(file_path).is_ok(), "File not found: {}", file_path);
+    assert!(
+        fs::metadata(file_path).is_ok(),
+        "File not found: {}",
+        file_path
+    );
 }
-
 
 #[test]
 fn test_transform_load() {
