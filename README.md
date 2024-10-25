@@ -1,23 +1,33 @@
-[![CI](https://github.com/nogibjj/SiMinL_Week7/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/SiMinL_Week7/actions/workflows/CI.yml)
 
-# Rust Project Template with functional CI/CD, devcontainer, dockerfile
-This repository contains Rust implementations for approximating definite integrals of functions with the Trapezoidal Rule numerical method. Basic structure including CI/CD, Testing, Makefile and reproducible environments are included.
+# Individual Project 2: Rust CLI Binary with SQLite
+## Requirements
+- Rust source code: The code should comprehensively understand Rust's syntax and unique features.
+- Use of LLM: In your README, explain how you utilized an LLM in your coding process.
+- SQLite Database: Include a SQLite database and demonstrate CRUD (Create, Read, Update, Delete) operations.
+- Optimized Rust Binary: Include a process that generates an optimized Rust binary as a Gitlab Actions artifact that can be downloaded.
+- README.md: A file that clearly explains what the project does, its dependencies, how to run the program, and how Gitlab Copilot was used.
+- Github/Gitlab Actions: A workflow file that tests, builds, and lints your Rust code.
+- Video Demo: A YouTube link in README.md showing a clear, concise walkthrough and demonstration of your CLI binary.
 
-# Project Structure
-- Devcontainer
-- Makefile
-- github workflows containing the CI/CD pipeline
-- SRC: Contains lib.rs which has the core functions to compute the integral, and main.rs which calls functions from lib.rs
-- Tests to ensure tool works correctly
+# Video Demo
+
+# Components
+- Data Extraction: The extract function downloads data from a specified URL and saves it to a local file.
+- Data Transformation and Loading: The transform_load function reads a CSV dataset and inserts its records into a SQLite database after performing necessary table operations. It creates a table named  with specific columns.
+- Database Querying: The query function allows users to perform SELECT, INSERT, UPDATE, and DELETE operations on the database. It logs the queries into a Markdown file named query_log.md.
+- Logging: The log_query function appends SQL queries to a log file, facilitating tracking and analysis of executed queries.
 
 # Running the Code
-## Option 1
-Prerequisites: Rust is installed
-
 1. Build and run
-- cargo build
-2. Execute the main program
-- cargo run
+- cargo build for dependencies installation
+2. Extract
+- cargo run extract
+3. Transform and load
+cargon run transform_load
+4. Query sample
+make create, make read, make update or make delete to see sample CRUD operations
+
+# Testing
 3. Testing
 - make test
 4. Linting
@@ -25,18 +35,5 @@ Prerequisites: Rust is installed
 5. Formatting
 - Make format
 
-## Option 2
-Download Prebuilt Binary (No Rust Required)
-Download the prebuilt binary artifact. The artifact in CI/CD is a file or set of files generated during the build / test/ deployment phases that are saved and made accessible for future use.
-
-1. Go to the Actions tab in the repository.
-2. Select the latest workflow run.
-3. Scroll down to Artifacts and download the file.
-4. Move the binary to a Linux environment where you want to run the tool (e.g., GitHub Codespaces or a Linux machine).
-
-# CI/CD Pipeline
-This project uses GitHub Actions for continuous integration. The pipeline automatically:
-- Checks formatting using cargo fmt.
-- Lints the code with cargo clippy.
-- Runs tests using cargo test.
-- Builds the project in release mode using cargo build --release.
+# Optimised Rust Binary
+Find and download the uploaded artifact by going to actions and clicking on the latest workflow run

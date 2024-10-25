@@ -38,4 +38,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Rust Binary Artifact
-        path: target/release/integration # <-- Ensure the name matches your binary (check toml file)
+        path: target/release/lucy_sqlite # <-- Ensure the name matches your binary (check toml file)
+    - name: pull repository
+      run: git pull
+    - name: add rust logs
+      run: make generate_and_push
