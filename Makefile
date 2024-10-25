@@ -36,6 +36,13 @@ run:
 release:
 	cargo build --release
 
+# Install Rust toolchain if needed
+install:
+	# Install if needed
+	# @echo "Updating rust toolchain"
+	# rustup update stable
+	# rustup default stable 
+
 #Debug mode: binary is found at target/debug/
 #release mode: binary is found at target/release. Uses full optimisations.
 # Extract data
