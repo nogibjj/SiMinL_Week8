@@ -1,5 +1,7 @@
+use lucy_sql::{
+    create_record, delete_record, extract, general_query, read_data, transform_load, update_record,
+};
 use std::fs;
-use lucy_sql::{create_record, delete_record, extract, general_query, read_data, transform_load, update_record};
 
 #[test]
 fn test_extract() {

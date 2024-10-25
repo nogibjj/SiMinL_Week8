@@ -1,45 +1,89 @@
-name: CI/CD
+name: Rust CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
+    # Install Rust toolchain
+    - uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
+        profile: minimal
+        components: clippy, rustfmt
         override: true
 
-    - name: Check
-      run: make check
+    # Update Linux packages
+    - name: Update Linux packages
+      run: sudo apt-get update
 
-    - name: Format
+    # Install or update Rust toolchain (if needed)
+    - name: Update Rust toolchain
+      run: make install
+
+    # Check Rust versions
+    - name: Check Rust versions
+      run: make rust-version
+
+    # Build the project in release mode
+    - name: Build Release
+      run: make release
+
+    # Format the code
+    - name: Format Code
       run: make format
 
-    - name: Test
+    # Run Clippy for linting
+    - name: Run Linting
+      run: make lint
+
+    # Run custom commands (adjust based on your Makefile)
+    - name: Extract Data
+      run: make extract
+
+    - name: Transform and Load Data
+      run: make transform_load
+
+    - name: Create Record
+      run: make create_record
+
+    - name: Read Data
+      run: make read_data
+
+    - name: Update Record
+      run: make update_record
+
+    - name: Delete Record
+      run: make delete_record
+
+    - name: General Query
+      run: make general_query
+
+    # Run tests
+    - name: Run Tests
       run: make test
 
-    - name: Release
-      run: cargo build --release
-
+    # Upload the optimized binary as an artifact
     - name: Upload Binary Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
-        name: Rust Binary Artifact
-        path: target/release/lucy_sqlite # <-- Ensure the name matches your binary (check toml file)
-    - name: pull repository
+        name: optimized-binary
+        path: target/release/lucy_sql # Replace with your actual binary name
+
+    # Pull repository to ensure it's up to date
+    - name: Pull Repository
       run: git pull
-    - name: add rust logs
+
+    # Generate and push changes (e.g., updated logs)
+    - name: Generate and Push Changes
       run: make generate_and_push

@@ -1,16 +1,19 @@
+use csv::Reader; //reading csv files
 use reqwest::blocking::Client; // for HTTP requests to download data
 use rusqlite::{params, Connection, Result}; //for interacting with sqlite database
+use serde::Deserialize;
 use std::fs; // file system operations
-use std::fs::OpenOptions;
-use std::io::Write; //writing to file
-use csv::Reader; //reading csv files
-use serde::Deserialize; //deserialising CSV records into rust structs
+             //use std::fs::OpenOptions;
+use std::error::Error;
+use std::io::Write; //writing to file //deserialising CSV records into rust structs
 
-const LOG_FILE: &str = "query_log.md"; //log sql queries
+const LOG_FILE: &str = "query_log.md";
 
-fn log_query(query: &str, log_file: &str) {
-    //creates new set of options for opening a file, sets options to append to file and create if it doesn't exist
-    if let Ok(mut file) = OpenOptions::new().append(true).create(true).open(log_file) {
+fn log_query(query: &str) {
+    use std::fs::OpenOptions;
+    use std::io::Write;
+
+    if let Ok(mut file) = OpenOptions::new().append(true).create(true).open(LOG_FILE) {
         if let Err(err) = writeln!(file, "```sql\n{}\n```\n", query) {
             eprintln!("Error writing to log file: {:?}", err);
         }
@@ -19,8 +22,13 @@ fn log_query(query: &str, log_file: &str) {
     }
 }
 
-pub fn extract(url: &str, file_path: &str, directory: &str) -> Result<(), Box<dyn std::error::Error>> {
-    if !fs::metadata(directory).is_ok() { // check if directory exists
+pub fn extract(
+    url: &str,
+    file_path: &str,
+    directory: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
+    if !fs::metadata(directory).is_ok() {
+        // check if directory exists
         fs::create_dir_all(directory)?; //if not creates directory
     }
 
@@ -43,8 +51,7 @@ struct Record {
     Grad_employed: Option<u32>,
 }
 
-
-pub fn transform_load(dataset: &str) -> Result<String> {
+pub fn transform_load(dataset: &str) -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("gradstudentsDB.db")?;
     conn.execute("DROP TABLE IF EXISTS gradstudentsDB", [])?;
     conn.execute(
@@ -163,54 +170,3 @@ pub fn general_query(query: &str) -> Result<()> {
     println!("Query executed successfully!");
     Ok(())
 }
-
-
-
-pub fn query(query: &str) -> Result<()> {
-    let conn = Connection::open("ServeTimesDB.db")?;
-    // Read operation
-    if query.trim().to_lowercase().starts_with("select") {
-        let mut stmt = conn.prepare(query)?;
-        let results = stmt.query_map(params![], |row| {
-            Ok((
-                row.get::<usize, i32>(0)?,
-                row.get::<usize, String>(1)?,
-                row.get::<usize, i32>(2)?,
-                row.get::<usize, String>(3)?,
-                row.get::<usize, String>(4)?,
-                row.get::<usize, String>(5)?,
-                row.get::<usize, i32>(6)?,
-                row.get::<usize, String>(7)?,
-            ))
-        })?;
-
-        for result in results {
-            match result {
-                Ok((
-                    id,
-                    server,
-                    seconds_before_next_point,
-                    day,
-                    opponent,
-                    game_score,
-                    sets,
-                    game,
-                )) => {
-                    println!(
-                        "Result: id={}, server={}, seconds={}, day={}, opponent={}, score={}, sets={}, game={}",
-                        id, server, seconds_before_next_point, day, opponent, game_score, sets, game
-                    );
-                }
-                Err(e) => eprintln!("Error in row: {:?}", e),
-            }
-        }
-    } else {
-        // other CUD operations
-        let _num_affected_rows = conn.execute_batch(query)?;
-    }
-    log_query(query, LOG_FILE);
-    Ok(())
-}
-
-
-
