@@ -1,6 +1,9 @@
 [![Rust CI/CD Pipeline](https://github.com/nogibjj/SiMinL_Week8/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/SiMinL_Week8/actions/workflows/CI.yml)
 
 # Individual Project 2: Rust CLI Binary with SQLite
+This project demonstrates a Rust-based CLI application on a SQLite database. It supports basic CRUD (Create, Read, Update, Delete) operations on the database. Additionally, this project produces an optimized Rust binary generated through GitLab CI, with automated testing, building, and linting processes.
+Utilising an LLM for this project allowed me to familiarise myself with the syntax of Rust as well as its intricacies.
+
 ## Requirements
 - Rust source code: The code should comprehensively understand Rust's syntax and unique features.
 - Use of LLM: In your README, explain how you utilized an LLM in your coding process.
